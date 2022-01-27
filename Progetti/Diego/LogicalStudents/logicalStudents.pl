@@ -6,6 +6,11 @@ divBy(N, D, R):- integer(N), integer(D), mod(N,D)=\=0, R = 0.
 hasLength([],0).
 hasLength([_|O],L):-L2 is L-1,hasLength(O,L2),!.
 
+% Predicate: Check if two sets are the same: 
+equalSets(X,Y):-
+    subset(X,Y),
+    subset(Y,X).
+
 % Predicate: Generate a list of N successive numbers starting from S
 generateList([],0,_).
 generateList([F|O],N, S):-
@@ -34,7 +39,6 @@ validSetCheck([F, S|O], BY6, BY7):-
     S>=10, S=< 99,
     % Recursive call to other successive sequences
  	validSetCheck([S|O], BY61, BY71),
-        
     divBy(F,6, R6), % Check if the first number is divisible by 6 or 7 or both
     divBy(F,7, R7),
     BY6 is R6 + BY61,
@@ -54,16 +58,19 @@ listOfSets(O, [_ |LO]):-
 
 nsets:-generateList(L,90,10),listOfSets(R,L),!,length(R,X), write('The number of possible sets is:'), write(X).
 
-% Predicate: 
+% Predicate: generate a boolean array which says whether any student in could deduce a set : 
+% A set is deductable if at least a digit of the set does not appear in any other set
+% It's enough to check the next and previous set
+% To do this check, compute the intersection between the set S and the other two SP,SN, if the union of the intersections is the same as 
+% the original set then it means that all digits in S appear at least once in one of the others and it's not deductable
 
-% First position
+% First position:
 deductableArray1([S1,SN |O],[L1|LO]):-
     intersection(S1,SN,I),
-    length(I,LEN), LEN=:=4, L1 is 0, 
+    equalSets(I,S1), L1 is 0, 
     deductableArray([S1,SN |O],LO).
 deductableArray1([S1,SN |O],[L1|LO]):-
-    intersection(S1,SN,I),
-    length(I,LEN), LEN<4, L1 is 1, 
+	L1 is 1, 
     deductableArray([S1,SN |O],LO).
 
 % General case
@@ -71,30 +78,23 @@ deductableArray([SP,S1,SN |O], [L1|LO]):-
     intersection(SP,S1,I1),
     intersection(S1,SN,I2),
     union(I1,I2,IU),
-    length(S1,LEN),length(IU,LENU),
-    LEN=:=LENU, L1 is 0,
+    equalSets(IU,S1), L1 is 0, 
     deductableArray([S1,SN|O],LO).
-deductableArray([SP,S1,SN |O], [L1|LO]):-
-    intersection(SP,S1,I1),
-    intersection(S1,SN,I2),
-    union(I1,I2,IU),
-    length(S1,LEN),length(IU,LENU),
-    LEN=\=LENU, L1 is 1,
+deductableArray([_,S1,SN |O], [L1|LO]):-
+	L1 is 1,
     deductableArray([S1,SN|O],LO).
 
 % Last case
 deductableArray([SP, S1],[0]):-
     intersection(SP,S1,I),
-    length(I,LEN), LEN=:=4.
-deductableArray([SP, S1],[1]):-
-    intersection(SP,S1,I),
-    length(I,LEN), LEN<4.
+    equalSets(I,S1).
+deductableArray([_, _],[1]).
 
-% Final sum
+% Predicate: Compute the sum of a vector considering a boolean vector which says which indexes to sum up
 sumUp([],[],0).
 sumUp([S|SO],[0|DO],SUM):-
-    sumUp(SO,DO,S1),nth1(4,S,SE), SUM is S1 + SE.
-sumUp([S|SO],[1|DO],SUM):-
+    sumUp(SO,DO,S1),last(S,SE), SUM is S1 + SE.
+sumUp([_|SO],[1|DO],SUM):-
     sumUp(SO,DO,S1),SUM is S1.
 
 setSum:-generateList(L,90,10),listOfSets(R,L),!,deductableArray1(R,D),!,sumUp(R,D,FR),write("The sum of possible sets is "), write(FR).
