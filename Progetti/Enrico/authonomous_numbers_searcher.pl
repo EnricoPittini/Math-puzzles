@@ -83,7 +83,7 @@ authonomous_number(N, MinL, MaxL, Ds) :-
     length(L, N1), N1 mod 2 #= 0,  
     
     % The digits in an even position are in an ascending order
-    ascending_order_evenPsxDigits(L),
+    evenPsxDigits_ascending_order(L),
     
     % The digits in an odd position count the next digits on the right
     oddPsxDigits_count_nextDigits(L),
@@ -93,18 +93,6 @@ authonomous_number(N, MinL, MaxL, Ds) :-
     
     % The list of numbers Ds contains the recquired divisors for N
     divisors(N, Ds).
-
-
-
-divisors(_, []).
-divisors(N, [H|T]) :-
-    H #>0,
-    N mod H #= 0,
-    divisors(N, T).
-divisors(N, [H|T]) :-
-    H #<0,
-    N mod abs(H) #> 0,
-    divisors(N, T).
 
 
 
@@ -335,7 +323,7 @@ oddPsxDigits_count_nextDigits_AUX([], _).
 oddPsxDigits_count_nextDigits_AUX([H1,H2|T], L1) :-
     % H1 is the first digit in L which has an odd position; H2 is the next digit to the right.
     % H1 must be equal to the number of occourances of H2 in L1.
-    number_of_occourances(H2, L1, N),  % N is the number of occourances of H2 in L1
+    number_of_occourances(L1, H2, N),  % N is the number of occourances of H2 in L1
     H1 #= N,  % H1 is equal to N
     oddPsxDigits_count_nextDigits_AUX(T, L1).  % Recursive call on the tail T of L, with the same L1
 
@@ -436,4 +424,30 @@ all_oddPsxDigits_in_evenPsxDigits_AUX([H1,_|T], L1) :-
     all_oddPsxDigits_in_evenPsxDigits_AUX(T, L1).  % Recursive call on the tail T of L
 
 
-    
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% DIVISORS
+
+/*
+    divisors(N, Ds) : the list Ds specifies the recquired divisors for N.
+
+    Arguments
+    --------------
+        - N: int
+        - Ds: list of int
+          List containing the recquired divisors for the number.
+            * A positive number p means that the authonomous number N must have p as divisor.
+            * A negative number -p means that the authonomous number N must not have p as divisor.
+
+*/
+% Base case: empty list
+divisors(_, []).
+% Recursive case: the list Ds has at least one element, which is positive
+divisors(N, [H|T]) :-
+    H #>0,  % The head of the list is positive
+    N mod H #= 0,  % The number N must be divisible by H
+    divisors(N, T).  % Recursive call on the tail T of the list
+% Recursive case: the list Ds has at least one element, which is negative
+divisors(N, [H|T]) :-
+    H #<0,  % The head of the list is negative
+    N mod abs(H) #> 0,  % The number N must be not divisible by H
+    divisors(N, T).  % Recursive call on the tail T of the list
