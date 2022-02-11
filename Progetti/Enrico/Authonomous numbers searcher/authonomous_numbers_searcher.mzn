@@ -1,8 +1,9 @@
 /* 
   AUTHONOMOUS NUMBERS SEARCHER
 
-  An authonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property: counting the number of  
-  times each digit is used, from the smallest digit to the biggest digit, the number N is itself found, from left to right.
+  An authonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property:
+  counting the number of times each digit is used, from the smallest digit to the biggest digit, the number N is itself 
+  found, from left to right.
   
   Example
   21322314 
@@ -19,13 +20,15 @@
   ---------------
   The aim is to find an authonomous number.
   
-  This search is filtered with additional optional constraints, involving the number of digits of the number and the divisibility of the number.
+  This search is filtered with additional optional constraints, involving the number of digits of the number and the 
+  divisibility of the number.
   
-  For example, the user can specify that the authonomous number N must have a number of digits between 8 and 17 and that the authonomous number must be 
-  divisible by 11 and 7 but not by 2 and 9.
+  For example, the user can specify that the authonomous number N must have a number of digits between 8 and 17 and that the 
+  authonomous number must be divisible by 11 and 7 but not by 2 and 9.
   (In other words, n must have 11 and 7 as divisors but not 2 and 9).
   
    The user can ask about the divisibility of the authonomous number N by numbers in the range 2..11. 
+   (The reason of the limitation 2..11 will be explained later on)
   
   
   
@@ -53,7 +56,12 @@
   Basically, bot a single integer variable, but an array of variables in 0..9.
   
   This is done because of the integer overflow.
-  Indeed, in MinZinc an operation between integer variables overflows if it exceeds 10^11: this is a big limitation for our problem.
+  Indeed, in MinZinc an operation between integer variables overflows if it exceeds 10^11: this is a big limitation for our 
+  problem.
+
+  This is the reason why the user can't specify any divisor, but only divisors in the range 2..11.
+  Indeed, for the numbers in the range 2..11, there are divisibility rules which can be applied on the array of digits, 
+  rather than on the actual number.
 
 
 
@@ -67,8 +75,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PARAMETERS
 % Minimum and maximum number of digits of the authonomous number
-int: min_length = 1;
-int: max_length = 19;
+int: min_length;
+int: max_length;
 
 % Recquired divisors for the authonomous number
 int: n_divisors;
@@ -86,12 +94,15 @@ array[1..max_length] of var 0..9: N;
 /*
   Notes
   ------------
-  Also the 0 digit is used in the authonomous number, even if, by definition, an authonomous number can't contain the 0 digit.
+  Also the 0 digit is used in the authonomous number, even if, by definition, an authonomous number can't contain the 0 
+  digit.
   This is done in order to be able to handle a variable length.
   
-  Indeed, the length of N it is fixed, and it is `max_length`, while the actual length is `length` (i.e. the actual number of digits).
+  Indeed, the length of N it is fixed, and it is `max_length`, while the actual length is `length` (i.e. the actual number of
+  digits).
   All the digits from `length`+1 up to ` max_length` are useless digits, and they are all 0. 
-  `length` is, in general, not known (it is known only inside the exists constraint): therefore, the 0 digit is used for recognizing the useless digits.
+  `length` is, in general, not known (it is known only inside the exists constraint): therefore, the 0 digit is used for 
+  recognizing the useless digits.
 */
 
 
@@ -129,6 +140,9 @@ predicate authonomous_number(array[1..max_length] of var 0..9: N, int: length) =
 *      - int: length
 *        Actual number of digits of the number (i.e. actual length of the array).
 *
+*  Implementation
+*  ------------
+*  A number is divisible by 2 iif the last digit is divisible by .
 */
 predicate divisible_by_2(array[1..max_length] of var 0..9: N, int: length) = N[length] mod 2 == 0;
 
@@ -144,7 +158,7 @@ predicate divisible_by_2(array[1..max_length] of var 0..9: N, int: length) = N[l
 *
 *  Implementation
 *  ------------
-*  A number is divisible by 2 iif the last digit is divisible by 7.
+*  A number is divisible by 3 iif the sum of the digits is divisible by 3.
 *
 */
 predicate divisible_by_3(array[1..max_length] of var 0..9: N, int: length) = sum(i in 1..length)(N[i]) mod 3 == 0;
@@ -161,7 +175,7 @@ predicate divisible_by_3(array[1..max_length] of var 0..9: N, int: length) = sum
 *
 *  Implementation
 *  ------------
-*  A number is divisible by 3 iif the sum of the digits is divisible by 3.
+*  A number is divisible by 4 iif the last two digits are divisible by 4.
 *
 */
 predicate divisible_by_4(array[1..max_length] of var 0..9: N, int: length) = 
@@ -179,7 +193,7 @@ predicate divisible_by_4(array[1..max_length] of var 0..9: N, int: length) =
 *
 *  Implementation
 *  ------------
-*  A number is divisible by 4 iif the last two digits are divisible by 4.
+*  A number is divisible by 5 iif the last digit is divisible by 5.
 *
 */
 predicate divisible_by_5(array[1..max_length] of var 0..9: N, int: length) = N[length] mod 5 == 0;
@@ -196,10 +210,11 @@ predicate divisible_by_5(array[1..max_length] of var 0..9: N, int: length) = N[l
 *
 *  Implementation
 *  ------------
-*  A number is divisible by 5 iif the last digit is divisible by 5.
+*  A number is divisible by 6 iif it is divisible by 2 and 3.
 *
 */
-predicate divisible_by_6(array[1..max_length] of var 0..9: N, int: length) = divisible_by_2(N, length) /\ divisible_by_3(N, length);
+predicate divisible_by_6(array[1..max_length] of var 0..9: N, int: length) = 
+    divisible_by_2(N, length) /\ divisible_by_3(N, length);
 
 /*
 *  divisible_by_7: the given integer number, represented as an array of digits, is divisible by 7.
@@ -214,7 +229,7 @@ predicate divisible_by_6(array[1..max_length] of var 0..9: N, int: length) = div
 *
 *  Implementation
 *  ------------
-*  A number is divisible by 7 if the sum of the following three quantities is divisible by 7.
+*  A number is divisible by 7 iif the sum of the following three quantities is divisible by 7.
 *      1. The alternating sum of the digits whose index is equal to 0 mod 3.
 *      2. Three times the alternating sum of the digits whose index is equal to 1 mod 3.
 *      3. Two times the alternating sum of the digits whose index is equal to 2 mod 3.
@@ -264,8 +279,10 @@ predicate divisible_by_7(array[1..max_length] of var 0..9: N, int: length) = let
 *
 */  
 predicate divisible_by_8(array[1..max_length] of var 0..9: N, int: length) = 
-    (length>=3) /\ ((N[length-2]*100+N[length-1]*10+N[length]) mod 8 == 0) \/ (length==2 /\ (N[length-1]*10+N[length]) mod 8 == 0)
-    \/ (length<2 /\ N[length] mod 8 == 0);
+    (length>=3 /\ ((N[length-2]*100+N[length-1]*10+N[length]) mod 8 == 0)) \/ 
+    (length==2 /\ ((N[length-1]*10+N[length]) mod 8 == 0)) \/
+    (length<2 /\ (N[length] mod 8 == 0));
+    %(N[length-2]*100+N[length-1]*10+N[length]) mod 8 == 0;
    
 /*
 *  divisible_by_9: the given integer number, represented as an array of digits, is divisible by 9.
@@ -296,7 +313,8 @@ predicate divisible_by_9(array[1..max_length] of var 0..9: N, int: length) = sum
 *
 *  Implementation
 *  ------------
-*  A number is divisible by 11 iif the absolute difference between the digits in odd position and the digits in even position is divisible by 11.
+*  A number is divisible by 11 iif the absolute difference between the digits in odd position and the digits in even position
+*  is divisible by 11.
 *
 */
 predicate divisible_by_11(array[1..max_length] of var 0..9: N, int: length) = 
@@ -306,7 +324,8 @@ predicate divisible_by_11(array[1..max_length] of var 0..9: N, int: length) =
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONSTRAINTS
-% Search if there exist a number of digits (i.e. `length`) such that there exist a number with that length which satisfies all the contraints 
+% Search if there exist a number of digits (i.e. `length`) such that there exist a number with that length which satisfies 
+% all the contraints 
 constraint exists(length in min_length..max_length where length mod 2 == 0)(
   % `length` represents the actual number of digits.
   % `length` is accessible only inside this exists constraint.
