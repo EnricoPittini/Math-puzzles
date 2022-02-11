@@ -1,6 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+% The objective of this exercise is to find out the best set of words to use during our initial guessing for the game of Wordle
+% Given a number of allowed guesses the best set of them should:
+% -contain as many different letters as possible
+% -use only the most frequently used letters in the english alphabet (we can consider only 5 letter words)
+% 
+% The program is given the number of allowed guesses and then it tries to obtain the best set of guesses
+
 include "alldifferent.mzn";
 include "words5Sol.dzn";
 include "increasing.mzn";
+
+%%%%%%%%%%%%%%%%
+% Utilities
 
 % Use integers instead of chars
 int: a =  1; int: b =  2; int: c =  3; int: d =  4; int: e =  5; int: f =  6;
@@ -14,15 +25,23 @@ int: nLetters = 26;
 array[1..nLetters] of string: letters = 
        ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"];
 
-% Frequency of individual characters
+% Frequency of individual characters (found using the python script)
 array[1..nLetters] of int: letterFrequency =[
 5990,1627,2028,2453,6662,1115,1644,1760,3759,291,1505,3371,1976,2952,4438,2019,112,4158,6665,3295,2511,694,1039,288,2074,434
 ];
+
+% Total number of characters analyzed
 int: normConst = 64860;
 
+%%%%%%%%%%%%%%%%
+% Parameters
 
 % Guesses allowed
 int: maxGuess = 4;
+
+%%%%%%%%%%%%%%%%
+% Variables
+
 % Indexes of the chosen words, as indexes of the entire word dictionary
 array[1..maxGuess] of var 1..numWords5: wordChoice;
 % Set containing the different letters of each chosen word
@@ -30,6 +49,8 @@ array[1..maxGuess] of var set of a..z: wordSet;
 % Set containing the different letters between all words
 var set of a..z: totalUniqueLetters;
 
+%%%%%%%%%%%%%%%%
+% Constraints
 
 % The words chosen have to be different
 constraint all_different(wordChoice);
@@ -45,20 +66,23 @@ constraint totalUniqueLetters = array_union([wordSet[ii] | ii in 1..maxGuess]);
 % A better solution is one which incorporates more widely used letters(so according to their frequency)
 function var int:letterScore(var set of a..z: letters) = sum([letterFrequency[ii] | ii in letters]);
 
-% Any permutation of words is a symmetry
+% Any permutation of words is a symmetry, force an increasing order
 constraint symmetry_breaking_constraint(increasing(wordChoice));
 
-solve :: seq_search([
-  % Choosing a random index as initialization is much better than going by dictionary order (successive words are similar, which is bad for the search)
-  int_search(wordChoice, smallest, indomain_random)] 
-  )
+%%%%%%%%%%%%%%%%
+% Solving and output
+
+solve :: 
+  % Choosing a random index as initialization/next guess is much better than going by dictionary order (successive words are similar, which is bad for the search)
+  int_search(wordChoice, first_fail, indomain_random)
+  
   % Try to find the set of words with the highest amount of different letters and with the most frequent letters
   % The normalization constant of the letter frequency is multiplied instead of being divided, this way we only have an integer optimization (should be faster)
   
   maximize card(totalUniqueLetters)*normConst + letterScore(totalUniqueLetters);
   % maximize card(totalUniqueLetters);
   
-  
+
 output [ "Number of different letters: \(card(totalUniqueLetters)) \nLetter score: \(letterScore(totalUniqueLetters)/normConst)\nWords:\n"
 ++
 concat([ concat([letters[fix(words5[wordChoice[ii],jj])]| jj in 1..5])++"\n" | ii in 1..maxGuess ])];
