@@ -67,7 +67,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PARAMETERS
 % Minimum and maximum number of digits of the authonomous number
-int: min_length = 8;
+int: min_length = 1;
 int: max_length = 19;
 
 % Recquired divisors for the authonomous number
@@ -358,5 +358,5 @@ solve satisfy;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OUTPUT
 
-% In showing the number, the 0 digits are removed, because they are the useled digits from `length`+1 up to `max_length`
+% In showing the number, the 0 digits are removed, because they are the useless digits from `length`+1 up to `max_length`
 output [show([N[i] | i in 1..max_length where N[i]>0])] ;
