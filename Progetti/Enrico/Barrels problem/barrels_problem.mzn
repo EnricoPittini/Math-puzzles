@@ -69,7 +69,8 @@
     - int: n_recquired_numbers_barrelsTop
       Number of recquired numbers on the top of the barrels. 
     - array[1..n_divisors] of int: recquired_numbers_barrelsTop
-      Array containing the recquired numbers on the top of the barrels.       
+      Array containing the recquired numbers on the top of the barrels.   
+          
 */
 
 

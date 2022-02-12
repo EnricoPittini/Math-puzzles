@@ -30,8 +30,15 @@
   (In other words, n must have 11 and 7 as divisors but not 2 and 9).
   
    The user can ask about the divisibility of the authonomous number N by whatever number he wants. 
-
-
+  
+  
+  
+  EXAMPLE OF QUERY
+  ---------------
+  > authonomous_number(N, 1, 19, [-2,11-9]), label([N]).
+  TRUE  N=3122331619
+  N is an authonomous number, with number of digits between 1 and 19, which is not divisible by 2, which is divisible by 11
+  and which is not divisible by 9.
 
   REFERENCES
   ---------------
