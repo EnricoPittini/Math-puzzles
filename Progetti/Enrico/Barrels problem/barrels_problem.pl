@@ -1,4 +1,5 @@
 :- use_module(library(clpfd)).
+:- use_module(library(lists)).
 :- use_rendering(table). % It renders a list of list (i.e. a matrix) as a table
 
 /* 
@@ -117,7 +118,7 @@ sum([H|T],S1) :-
 members(_, []).
 % Recursive case: the list Es has at least one element Es=[H|T]
 members(L, [H|T]) :-
-    memberchk(H, L),  % The head H is contained in the list L
+    member(H, L),  % The head H is contained in the list L
     members(L, T).  % Recursive call: all the elements in the tail T are contained in the list L
     
 
