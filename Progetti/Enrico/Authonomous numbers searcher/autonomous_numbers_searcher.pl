@@ -1,9 +1,9 @@
 :- use_module(library(clpfd)).
 
 /* 
-  AUTHONOMOUS NUMBERS SEARCHER
+  AUTONOMOUS NUMBERS SEARCHER
 
-  An authonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property: 
+  An autonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property: 
   counting the number of times each digit is used, from the smallest digit to the biggest digit, the number N, from left to 
   right, is itself found.
   
@@ -20,24 +20,24 @@
   
   AIM
   ---------------
-  The aim is to find an authonomous number.
+  The aim is to find an autonomous number.
   
   This search is filtered with additional optional constraints, involving the number of digits of the number and the 
   divisibility of the number.
   
-  For example, the user can specify that the authonomous number N must have a number of digits between 8 and 17 and that the 
-  authonomous number must be divisible by 11 and 7 but not by 2 and 9.
+  For example, the user can specify that the autonomous number N must have a number of digits between 8 and 17 and that the 
+  autonomous number must be divisible by 11 and 7 but not by 2 and 9.
   (In other words, n must have 11 and 7 as divisors but not 2 and 9).
   
-   The user can ask about the divisibility of the authonomous number N by whatever number he wants. 
+   The user can ask about the divisibility of the autonomous number N by whatever number he wants. 
   
   
   
   EXAMPLE OF QUERY
   ---------------
-  > authonomous_number(N, 1, 19, [-2,11-9]), label([N]).
+  > autonomous_number(N, 1, 19, [-2,11-9]), label([N]).
   TRUE  N=3122331619
-  N is an authonomous number, with number of digits between 1 and 19, which is not divisible by 2, which is divisible by 11
+  N is an autonomous number, with number of digits between 1 and 19, which is not divisible by 2, which is divisible by 11
   and which is not divisible by 9.
 
   REFERENCES
@@ -47,10 +47,10 @@
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AUTHONOMOUS NUMBER
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AUTONOMOUS NUMBER
 
 /*
-    authonomous_number(N, MinL, MaxL, Ds) : N is an authonomous number.
+    autonomous_number(N, MinL, MaxL, Ds) : N is an autonomous number.
     Additional recquirements:
     1. N has the number of digits between MinL and MaxL (extremes included);
     2. Ds is a list containing the recquired divisors for N.
@@ -60,22 +60,22 @@
         - N: int
           Authonomous number.
         - MinL: int
-          Minimum number of digits of the authonomous number.
+          Minimum number of digits of the autonomous number.
         - MaxL: int
-          Minimum number of digits of the authonomous number.
+          Minimum number of digits of the autonomous number.
         - Ds: list of int
           List containing the recquired divisors for the number.
-            * A positive number p means that the authonomous number N must have p as divisor.
-            * A negative number -p means that the authonomous number N must not have p as divisor.
+            * A positive number p means that the autonomous number N must have p as divisor.
+            * A negative number -p means that the autonomous number N must not have p as divisor.
 
     Example
     --------------
     N=3122331619 MinL=1 MaxL=19 Ds=[-2,11,-9]
     TRUE
-    N is an authonomous number, with number of digits between 1 and 19, which is not divisible by 2, which is divisible by 11
+    N is an autonomous number, with number of digits between 1 and 19, which is not divisible by 2, which is divisible by 11
     and which is not divisible by 9.
 */
-authonomous_number(N, MinL, MaxL, Ds) :-
+autonomous_number(N, MinL, MaxL, Ds) :-
     Min is 10**(MinL-1), % Minimum possible number in the domain of N
     Max is 10**MaxL-1, % Maximum possible number in the domain of N
     N in Min..Max, % Domain of N
@@ -281,10 +281,10 @@ number_of_occourances([H|T], X, N) :-
         - The digit 4 in position 3 is the number of times the next digit on the right (i.e. digit 4 in position 4) is 
           present in L.
 
-    L = [3, 2, 2, 1, 1, 4]
+    L = [1, 5, 2, 1, 1, 4]
          1  2  3  4  5  6 
     TRUE
-        - The digit 3 in position 1 is the number of times the next digit on the right (i.e. digit 2 in position 2) is 
+        - The digit 1 in position 1 is the number of times the next digit on the right (i.e. digit 5 in position 2) is 
           present in L.
         - The digit 2 in position 3 is the number of times the next digit on the right (i.e. digit 1 in position 4) is 
           present in L.
@@ -442,8 +442,8 @@ all_oddPsxDigits_in_evenPsxDigits_AUX([H1,_|T], L1) :-
         - N: int
         - Ds: list of int
           List containing the recquired divisors for the number.
-            * A positive number p means that the authonomous number N must have p as divisor.
-            * A negative number -p means that the authonomous number N must not have p as divisor.
+            * A positive number p means that the number N must have p as divisor.
+            * A negative number -p means that the number N must not have p as divisor.
 
 */
 % Base case: empty list

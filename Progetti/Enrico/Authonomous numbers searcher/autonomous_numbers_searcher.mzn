@@ -1,7 +1,7 @@
 /* 
-  AUTHONOMOUS NUMBERS SEARCHER
+  AUTONOMOUS NUMBERS SEARCHER
 
-  An authonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property:
+  An autonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property:
   counting the number of times each digit is used, from the smallest digit to the biggest digit, the number N is itself 
   found, from left to right.
   
@@ -18,41 +18,41 @@
   
   AIM
   ---------------
-  The aim is to find an authonomous number.
+  The aim is to find an autonomous number.
   
   This search is filtered with additional optional constraints, involving the number of digits of the number and the 
   divisibility of the number.
   
-  For example, the user can specify that the authonomous number N must have a number of digits between 8 and 17 and that the 
-  authonomous number must be divisible by 11 and 7 but not by 2 and 9.
+  For example, the user can specify that the autonomous number N must have a number of digits between 8 and 17 and that the 
+  autonomous number must be divisible by 11 and 7 but not by 2 and 9.
   (In other words, n must have 11 and 7 as divisors but not 2 and 9).
   
-   The user can ask about the divisibility of the authonomous number N by numbers in the range 2..11. 
-   (The reason of the limitation 2..11 will be explained later on)
+  The user can ask about the divisibility of the autonomous number N by numbers in the range 2..11. 
+  (The reason of the limitation 2..11 will be explained later on)
   
   
   
   PARAMETERS
   ---------------
     - int: min_length
-      Minimum number of digits of the authonomous number.
+      Minimum number of digits of the autonomous number.
     - int: max_length
-      Maximum number of digits of the authonomous number.
+      Maximum number of digits of the autonomous number.
 
     - int: n_divisors
-      Number of recquired divisors for the authonomous number.
+      Number of recquired divisors for the autonomous number.
     - array[1..n_divisors] of -11..11: divisors
-      Array containing the recquired divisors for the authonomous number.
+      Array containing the recquired divisors for the autonomous number.
       Each element of this array is a number in -11..11.
         * The numbers -10,-1,0-1,10 are not considered.
-        * A positive number p means that the authonomous number n must have p as divisor.
-        * A negative number -p means that the authonomous number n must not have p as divisor.
+        * A positive number p means that the autonomous number n must have p as divisor.
+        * A negative number -p means that the autonomous number n must not have p as divisor.
         
         
         
   IMPLEMENTATION
   ---------------
-  The authonomous number is implemented not as a number, but as an array of digits.
+  The autonomous number is implemented not as a number, but as an array of digits.
   Basically, bot a single integer variable, but an array of variables in 0..9.
   
   This is done because of the integer overflow.
@@ -74,11 +74,11 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PARAMETERS
-% Minimum and maximum number of digits of the authonomous number
+% Minimum and maximum number of digits of the autonomous number
 int: min_length;
 int: max_length;
 
-% Recquired divisors for the authonomous number
+% Recquired divisors for the autonomous number
 int: n_divisors;
 array[1..n_divisors] of -11..11: divisors;
 % The elements are in the range -11..11.
@@ -94,7 +94,7 @@ array[1..max_length] of var 0..9: N;
 /*
   Notes
   ------------
-  Also the 0 digit is used in the authonomous number, even if, by definition, an authonomous number can't contain the 0 
+  Also the 0 digit is used in the autonomous number, even if, by definition, an autonomous number can't contain the 0 
   digit.
   This is done in order to be able to handle a variable length.
   
@@ -110,7 +110,7 @@ array[1..max_length] of var 0..9: N;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% USER-DEFINED PREDICATES
 /*
-*  authonomous_number: the given integer number, represented as an array of digits, is an authonomous number.
+*  autonomous_number: the given integer number, represented as an array of digits, is an autonomous number.
 *  
 *  Input
 *  ------------
@@ -120,7 +120,7 @@ array[1..max_length] of var 0..9: N;
 *        Actual number of digits of the number (i.e. actual length of the array).
 *
 */
-predicate authonomous_number(array[1..max_length] of var 0..9: N, int: length) =
+predicate autonomous_number(array[1..max_length] of var 0..9: N, int: length) =
     % All the digits must be non-zero
     forall(i in 1..length)(N[i]>0) /\
     % The digits with even index must be in an ascending order
@@ -330,8 +330,8 @@ constraint exists(length in min_length..max_length where length mod 2 == 0)(
   % `length` represents the actual number of digits.
   % `length` is accessible only inside this exists constraint.
   
-  % The number is authonomous
-  authonomous_number(N, length) /\
+  % The number is autonomous
+  autonomous_number(N, length) /\
   
   % Divisibility by 2
   (has_element(2, divisors) -> divisible_by_2(N, length)) /\

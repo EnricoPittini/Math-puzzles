@@ -223,6 +223,7 @@ select_submatrix(Starting_row, Ending_row, Starting_col, Ending_col, M, M1) :-
     % M_temp.
     % So, M1 is the submatrix of M_temp in which there are only the columns from Starting_col up to Ending_col
     maplist(select_sublist(Starting_col, Ending_col), M_temp, M1). 
+    
     % More precise description. To each row M_temp_row of M_temp, it is applied the predicate 
     %                       select_sublist(Starting_col, Ending_col, M_temp_row, M1_row)
     % where M1_row is the corresponding row of M1. 
