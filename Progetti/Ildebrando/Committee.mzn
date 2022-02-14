@@ -7,7 +7,7 @@ Can the committee be chosen so that no one on it has 3 friends on the committee,
 
 include "globals.mzn"; 
 
-%Decision variables 
+% Parameters 
 
 
 % number of professors
