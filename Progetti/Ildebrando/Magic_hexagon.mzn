@@ -16,8 +16,7 @@ For visual reason the magic hexagon is defined as follows, using letters as its 
 
 include "globals.mzn";
  
-%Parameters
-
+% Parameters
 
 % Elements of the order 3 hexagon are integers in the range of 1..19 (being 19 the third hex number)
 set of int: N = 1..19;
@@ -52,19 +51,16 @@ array[N] of var N: elements = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q
 
 % Solving the problem
 
-
 % Solving the CSP problem
 solve satisfy;
 
 
 % Constraints
 
-
 % Constraint on uniqueness of all the elements of the hexagon
 constraint all_different(elements);
  
 % Constraints that check that every line of the hexagon sums up to the magic number
-
 % Horizontal sum
 constraint 
   a + b + c =  magic_number /\
@@ -91,7 +87,6 @@ constraint
  
 
 % Output
-
 
 % First output, elements of the hexagon are shown in an array style
 output [ show(elements)];
