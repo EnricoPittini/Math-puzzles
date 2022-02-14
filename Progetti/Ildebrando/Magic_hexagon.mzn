@@ -1,14 +1,9 @@
 /*
-A magic hexagon of order n is an arrangement of close-packed hexagons containing the numbers 1, 2, ..., H_(n-1), where H_n is the nth hex number such that the numbers along each straight line add up to the same sum. (Here, the hex numbers are i.e., 1, 7, 19, 37, 61, 91, 127, ...; OEIS A003215). In the above magic hexagon of order n=3, each line (those of lengths 3, 4, and 5) adds up to 38.
+A magic hexagon of order n is an arrangement of close-packed hexagons containing the numbers 1, 2, ..., H_(n-1), where H_n is the nth hex number such that the numbers along 
+each straight line add up to the same sum. (Here, the hex numbers are i.e., 1, 7, 19, 37, 61, 91, 127, ...; OEIS A003215). In the magic hexagon of order n=3, each line (those
+of lengths 3, 4, and 5) adds up to 38.
 
-It was discovered independently by Ernst von Haselberg in 1887 (Bauch 1990, Hemme 1990), W. Radcliffe in 1895 (Tapson 1987, Hemme 1990, Heinz), H. Lulli (Hendricks, Heinz), Martin Kühl in 1940 (Gardner 1963, 1984; Honsberger 1973), Clifford W. Adams, who worked on the problem from 1910 to 1957 (Gardner 1963, 1984; Honsberger 1973), and Vickers (1958; Trigg 1964).
-
-This problem and the solution have a long history. Adams came across the problem in 1910. He worked on the problem by trial and error and after many years arrived at the solution which he transmitted to M. Gardner, Gardner sent Adams' magic hexagon to Charles W. Trigg, who by mathematical analysis found that it was unique disregarding rotations and reflections (Gardner 1984, p. 24). Adams' result and Trigg's work were written up by Gardner (1963). Trigg (1964) did further research and summarized known results and the history of the problem.
-
-Trigg showed that the magic constant for an order n hexagon would be
-
- (9(n^4-2n^3+2n^2-n)+2)/(2(2n-1)), 
-the first few of which are 1, 28/3, 38, 703/7, 1891/9, 4186/11, ... (OEIS A097361 and A097362), which requires 5/(2n-1) to be an integer for a solution to exist. But this is an integer for only n=1 (the trivial case of a single hexagon) and Adams's n=3
+For visual reason the magic hexagon is defined as follows, using letters as its elements.
 
         A,B,C
        D,E,F,G
@@ -21,8 +16,7 @@ the first few of which are 1, 28/3, 38, 703/7, 1891/9, 4186/11, ... (OEIS A09736
 
 include "globals.mzn";
  
-%Decision variables
-
+% Parameters
 
 % Elements of the order 3 hexagon are integers in the range of 1..19 (being 19 the third hex number)
 set of int: N = 1..19;
@@ -57,19 +51,16 @@ array[N] of var N: elements = [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q
 
 % Solving the problem
 
-
 % Solving the CSP problem
 solve satisfy;
 
 
 % Constraints
 
-
 % Constraint on uniqueness of all the elements of the hexagon
 constraint all_different(elements);
  
 % Constraints that check that every line of the hexagon sums up to the magic number
-
 % Horizontal sum
 constraint 
   a + b + c =  magic_number /\
@@ -96,7 +87,6 @@ constraint
  
 
 % Output
-
 
 % First output, elements of the hexagon are shown in an array style
 output [ show(elements)];
