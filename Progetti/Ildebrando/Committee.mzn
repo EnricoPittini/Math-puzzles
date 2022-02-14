@@ -9,8 +9,7 @@ include "globals.mzn";
 
 % Parameters 
 
-
-% number of professors
+% Number of professors
 int: n = 4; 
 
 % 2D Array that show the friend relationship between every professor, in particular friends[i,j]=1 means that i is a friend of j, while friends[i,j]=0    % means that i is not a friend of j
@@ -20,19 +19,17 @@ array[1..n, 1..n] of var 0..1: friends;
 array[1..n] of var 0..1: x; 
 
 
-%Solving the problem
+% Solving the problem
 
-
-%Solving the CSP problem
+% Solving the CSP problem
 solve satisfy;
 
-%Solving the COP problem by maximizing (or minimizing) the number of members of the committee
+% Solving the COP problem by maximizing (or minimizing) the number of members of the committee
 %solve maximize sum(x); 
 %solve minimize sum(x);
 
 
 %Constraints
-
 
 % Extra assumption in order to avoid the committee being to crowded by imposing that the committee must be less than half of the professors if the number % of professors is greater than 6 
 constraint if n>6 then sum(x) < n/2 endif;
