@@ -49,7 +49,8 @@
   In building such structure, there are some constraints.
       1. Each row of the grid of cells must contain all different numbers.
       2. Each column of the grid of cells must contain all different numbers.
-      3. All the numbers on top of the barrels must be different numbers.
+      3. Each barrel must contain all different numbers.
+      4. All the numbers on top of the barrels must be different numbers.
   
   In addition, the user can specify that some specific numbers must be present on top of the barrels.
   
@@ -298,7 +299,7 @@ barrels_problem(Grid_rows, Numbers_barrelsTop, N_rows_barrels, N_columns_barrels
     maplist(append, Barrels, Barrels_flat), 
 
     % Each barrel must contain all different elements
-	maplist(all_distinct, Barrels_flat),
+	  maplist(all_distinct, Barrels_flat),
     
     % Each element in Numbers_barrelsTop is the sum of all the elements in the corresponding barrel
     maplist(sum, Barrels_flat, Numbers_barrelsTop),

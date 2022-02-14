@@ -1,7 +1,7 @@
 :- use_module(library(clpfd)).
 
 /* 
-  AUTONOMOUS NUMBERS SEARCHER
+  AUTONOMOUS NUMBERS PROBLEM
 
   An autonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property: 
   counting the number of times each digit is used, from the smallest digit to the biggest digit, the number N, from left to 
@@ -35,7 +35,7 @@
   
   EXAMPLE OF QUERY
   ---------------
-  > autonomous_number(N, 1, 19, [-2,11-9]), label([N]).
+  > autonomous_number(N, 1, 19, [-2,11,-9]), label([N]).
   TRUE  N=3122331619
   N is an autonomous number, with number of digits between 1 and 19, which is not divisible by 2, which is divisible by 11
   and which is not divisible by 9.

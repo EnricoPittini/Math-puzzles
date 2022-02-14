@@ -1,5 +1,5 @@
 /* 
-  AUTONOMOUS NUMBERS SEARCHER
+  AUTONOMOUS NUMBERS PROBLEM
 
   An autonomous number is a natural number N in which the digit 0 is not present and wich satisfies the following property:
   counting the number of times each digit is used, from the smallest digit to the biggest digit, the number N is itself 

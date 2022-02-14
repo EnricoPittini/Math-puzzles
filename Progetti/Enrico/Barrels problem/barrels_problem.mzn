@@ -45,7 +45,8 @@
   In building such structure, there are some constraints.
       1. Each row of the grid of cells must contain all different numbers.
       2. Each column of the grid of cells must contain all different numbers.
-      3. All the numbers on top of the barrels must be different numbers.
+      3. Each barrel must contain all different numbers.
+      4. All the numbers on top of the barrels must be different numbers.
   
   In addition, the user can specify that some specific numbers must be present on top of the barrels.
   
@@ -196,7 +197,7 @@ predicate barrel_all_different(array[1..total_rows, 1..total_columns] of var 1..
 
 % Each row of the grid of cells has all different elements 
 constraint forall(row in index_set_1of2(grid))(alldifferent(row(grid,row)));
-% Each columns of the grid of cells has all different elements 
+% Each column of the grid of cells has all different elements 
 constraint forall(col in index_set_2of2(grid))(alldifferent(col(grid,col)));
 
 % Each barrel has all different elements
