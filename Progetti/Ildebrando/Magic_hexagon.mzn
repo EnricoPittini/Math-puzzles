@@ -21,7 +21,7 @@ the first few of which are 1, 28/3, 38, 703/7, 1891/9, 4186/11, ... (OEIS A09736
 
 include "globals.mzn";
  
-%Decision variables
+%Parameters
 
 
 % Elements of the order 3 hexagon are integers in the range of 1..19 (being 19 the third hex number)
