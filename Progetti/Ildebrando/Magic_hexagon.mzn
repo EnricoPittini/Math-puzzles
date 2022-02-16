@@ -1,7 +1,6 @@
 /*
 A magic hexagon of order n is an arrangement of close-packed hexagons containing the numbers 1, 2, ..., H_(n-1), where H_n is the nth hex number such that the numbers along 
-each straight line add up to the same sum. (Here, the hex numbers are i.e., 1, 7, 19, 37, 61, 91, 127, ...; OEIS A003215). In the magic hexagon of order n=3, each line (those
-of lengths 3, 4, and 5) adds up to 38.
+each straight line add up to the same sum. In the magic hexagon of order n=3, each line (those of lengths 3, 4, and 5) adds up to 38.
 
 For visual reason the magic hexagon is defined as follows, using letters as its elements.
 
