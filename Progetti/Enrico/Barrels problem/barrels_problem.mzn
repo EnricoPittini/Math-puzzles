@@ -69,7 +69,7 @@
 
     - int: n_recquired_numbers_barrelsTop
       Number of recquired numbers on the top of the barrels. 
-    - array[1..n_divisors] of int: recquired_numbers_barrelsTop
+    - array[1..n_recquired_numbers_barrelsTop] of int: recquired_numbers_barrelsTop
       Array containing the recquired numbers on the top of the barrels.   
           
 */
@@ -122,7 +122,7 @@ array[1..n_barrels] of var int: numbers_barrelsTop;
 /*
 *  get_barrel: returns, from the given grid of cells, the barrel with the specified index
 *  
-*  A barrel is a grid of cells: grid `n_rows_per_barrel` x `n_columns_per_barrel`.
+*  A barrel is a grid of cells: grid `n_rows_per_barrel` x `n_columns_per_barrel`. It is a submatrix.
 *
 *  Input
 *  ------------
@@ -133,13 +133,13 @@ array[1..n_barrels] of var int: numbers_barrelsTop;
 *
 *  Output
 *  ------------
-*       array[1..n_rows_per_barrel, 1..n_columns_per_barrel]: barrel
+*       array[1..n_rows_per_barrel, 1..n_columns_per_barrel]of var 1..max_number: barrel
 */
 array[1..n_rows_per_barrel, 1..n_columns_per_barrel] of var 1..max_number: get_barrel(
   array[1..total_rows, 1..total_columns] of var 1..max_number: grid, int: barrel_idx) = let{
-  % Row index of that barrel
+  % Row index of that barrel in the grid of barrels
   int: row_barrels = barrel_idx div n_columns_barrels;
-  % Column index of that barrel
+  % Column index of that barrel  in the grid of barrels
   int: col_barrels = barrel_idx mod n_columns_barrels;
   
   % Starting row of that barrel in the grid of cells 
@@ -196,9 +196,9 @@ predicate barrel_all_different(array[1..total_rows, 1..total_columns] of var 1..
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONSTRAINTS
 
 % Each row of the grid of cells has all different elements 
-constraint forall(row in index_set_1of2(grid))(alldifferent(row(grid,row)));
+constraint forall(r in index_set_1of2(grid))(alldifferent(row(grid,r)));
 % Each column of the grid of cells has all different elements 
-constraint forall(col in index_set_2of2(grid))(alldifferent(col(grid,col)));
+constraint forall(c in index_set_2of2(grid))(alldifferent(col(grid,c)));
 
 % Each barrel has all different elements
 constraint forall(barrel_idx in 0..n_barrels-1)(barrel_all_different(grid, barrel_idx));
@@ -209,7 +209,7 @@ constraint forall(barrel_idx in 0..n_barrels-1)(numbers_barrelsTop[barrel_idx+1]
 % All the numbers on the top of the barrels are different
 constraint alldifferent(numbers_barrelsTop);
 
-% All the numbers specified by the users are on the top of the barrels
+% All the numbers specified by the user are on the top of the barrels
 constraint forall(i in 1..n_recquired_numbers_barrelsTop)(has_element(recquired_numbers_barrelsTop[i], numbers_barrelsTop));
 
 solve satisfy;
@@ -221,7 +221,7 @@ solve satisfy;
 /*
 *  print_barrel_row: returns, from the given grid of cells, the string representing the specified row of the specified barrel
 *
-*  The string representation of this barrol row must take into account the position of the barrel.
+*  The string representation of this barrel row must take into account the position of the barrel.
 *  Basically:
 *     - if the barrel is the last barrel on the right and the row is the last row of the barrel, there must be two 
 *       terminating new lines (i.e. '\n\n');

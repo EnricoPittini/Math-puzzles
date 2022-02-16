@@ -8,13 +8,13 @@
   right, is itself found.
   
   Example
-  21322314 
+  21322316 
   The following digits are used:
     - Two 1 ;
     - Three 2 ;
     - Two 3 ;
-    - One 4 ;
-  Appending these results, the number 21322314 is found, left to right.
+    - One 6 ;
+  Appending these results, the number 21322316 is found, left to right.
   
   
   
@@ -29,7 +29,7 @@
   autonomous number must be divisible by 11 and 7 but not by 2 and 9.
   (In other words, n must have 11 and 7 as divisors but not 2 and 9).
   
-   The user can ask about the divisibility of the autonomous number N by whatever number he wants. 
+  The user can ask about the divisibility of the autonomous number N by whatever number he wants. 
   
   
   
@@ -62,7 +62,7 @@
         - MinL: int
           Minimum number of digits of the autonomous number.
         - MaxL: int
-          Minimum number of digits of the autonomous number.
+          Maximum number of digits of the autonomous number.
         - Ds: list of int
           List containing the recquired divisors for the number.
             * A positive number p means that the autonomous number N must have p as divisor.
@@ -89,7 +89,7 @@ autonomous_number(N, MinL, MaxL, Ds) :-
     % The number of digits is an even number
     length(L, N1), N1 mod 2 #= 0,  
     
-    % The digits in an even position are in an ascending order
+    % The digits in an even position are in a strict ascending order
     evenPsxDigits_ascending_order(L),
     
     % The digits in an odd position count the next digits on the right
@@ -118,7 +118,7 @@ autonomous_number(N, MinL, MaxL, Ds) :-
 append([],L2,L2).
 append([H1|T1],L2,[H1|L]) :- 
     append(T1,L2,L).  % L is the concatenation between the tail T1 of the first list and the
-					  % whole second list L2.
+					            % whole second list L2.
     % The result of the concatenation of the whole two lists is [H1|L], where H1 is the head of
     % the first list.
 
@@ -281,12 +281,12 @@ number_of_occourances([H|T], X, N) :-
         - The digit 4 in position 3 is the number of times the next digit on the right (i.e. digit 4 in position 4) is 
           present in L.
 
-    L = [1, 5, 2, 1, 1, 4]
+    L = [1, 5, 3, 1, 1, 4]
          1  2  3  4  5  6 
     TRUE
         - The digit 1 in position 1 is the number of times the next digit on the right (i.e. digit 5 in position 2) is 
           present in L.
-        - The digit 2 in position 3 is the number of times the next digit on the right (i.e. digit 1 in position 4) is 
+        - The digit 3 in position 3 is the number of times the next digit on the right (i.e. digit 1 in position 4) is 
           present in L.
         - The digit 1 in position 5 is the number of times the next digit on the right (i.e. digit 4 in position 6) is 
           present in L.

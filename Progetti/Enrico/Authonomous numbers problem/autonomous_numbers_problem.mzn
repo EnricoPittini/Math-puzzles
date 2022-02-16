@@ -6,13 +6,13 @@
   found, from left to right.
   
   Example
-  21322314 
+  21322316 
   The following digits are used:
     - Two 1 ;
     - Three 2 ;
     - Two 3 ;
-    - One 4 ;
-  Appending these results, the number 21322314 is found, left to right.
+    - One 6 ;
+  Appending these results, the number 21322316 is found, left to right.
   
   
   
@@ -25,7 +25,7 @@
   
   For example, the user can specify that the autonomous number N must have a number of digits between 8 and 17 and that the 
   autonomous number must be divisible by 11 and 7 but not by 2 and 9.
-  (In other words, n must have 11 and 7 as divisors but not 2 and 9).
+  (In other words, N must have 11 and 7 as divisors but not 2 and 9).
   
   The user can ask about the divisibility of the autonomous number N by numbers in the range 2..11. 
   (The reason of the limitation 2..11 will be explained later on)
@@ -45,21 +45,21 @@
       Array containing the recquired divisors for the autonomous number.
       Each element of this array is a number in -11..11.
         * The numbers -10,-1,0-1,10 are not considered.
-        * A positive number p means that the autonomous number n must have p as divisor.
-        * A negative number -p means that the autonomous number n must not have p as divisor.
+        * A positive number p means that the autonomous number N must have p as divisor.
+        * A negative number -p means that the autonomous number N must not have p as divisor.
         
         
         
   IMPLEMENTATION
   ---------------
   The autonomous number is implemented not as a number, but as an array of digits.
-  Basically, bot a single integer variable, but an array of variables in 0..9.
+  Basically, not a single integer variable, but an array of variables in 0..9.
   
   This is done because of the integer overflow.
-  Indeed, in MinZinc an operation between integer variables overflows if it exceeds 10^11: this is a big limitation for our 
-  problem.
+  Indeed, in MinZinc, an operation between integer variables overflows if it exceeds 10^11: this is a big limitation for our 
+  problem. (The biggest autonomous number has 18 digits).
 
-  This is the reason why the user can't specify any divisor, but only divisors in the range 2..11.
+  This is the reason why the user can't specify generic divisors, but only divisors in the range 2..11.
   Indeed, for the numbers in the range 2..11, there are divisibility rules which can be applied on the array of digits, 
   rather than on the actual number.
 
@@ -123,7 +123,7 @@ array[1..max_length] of var 0..9: N;
 predicate autonomous_number(array[1..max_length] of var 0..9: N, int: length) =
     % All the digits must be non-zero
     forall(i in 1..length)(N[i]>0) /\
-    % The digits with even index must be in an ascending order
+    % The digits with even index must be in a strict ascending order
     forall(i in 1..length where i mod 2==0 /\ i>2)(N[i]>N[i-2]) /\
     % For each digit with even index, the previous digit in the number must represent the count of that digit in the number
     forall(i in 1..length where i mod 2==0)(sum([N[j]==N[i] | j in 1..length])==N[i-1]) /\
@@ -258,9 +258,9 @@ predicate divisible_by_7(array[1..max_length] of var 0..9: N, int: length) = let
 } in 
     % Alternating sum of the digits whose index is equal to 0 mod 3
     (sum(i in 1..length_index_zero)(if i mod 2 == 1 then digits_index_zero[i] else -digits_index_zero[i] endif) +
-    % Alternating sum of the digits whose index is equal to 1 mod 3
+    % Three times the alternating sum of the digits whose index is equal to 1 mod 3
     sum(i in 1..length_index_one)(if i mod 2 == 1 then digits_index_one[i] else -digits_index_one[i] endif)*3 + 
-    % Alternating sum of the digits whose index is equal to 2 mod 3
+    % Two times the alternating sum of the digits whose index is equal to 2 mod 3
     sum(i in 1..length_index_two)(if i mod 2 == 1 then digits_index_two[i] else -digits_index_two[i] endif)*2) mod 7 == 0; 
   
 /*
@@ -324,7 +324,7 @@ predicate divisible_by_11(array[1..max_length] of var 0..9: N, int: length) =
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONSTRAINTS
-% Search if there exist a number of digits (i.e. `length`) such that there exist a number with that length which satisfies 
+% Search if there exist a number of digits (i.e. `length`) such that there is a number with that length which satisfies 
 % all the contraints 
 constraint exists(length in min_length..max_length where length mod 2 == 0)(
   % `length` represents the actual number of digits.

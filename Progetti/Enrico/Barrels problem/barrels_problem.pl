@@ -77,7 +77,7 @@
         Numbers_barrelsTop = [45, 57, 49, 38, 37, 50, 46, 41, 30, 44, 42, 47]
     The grid of barrels is a grid 4x3.
     Each barrel is a grid 3x2.
-    So, on the whole the grid of cells is a grid (4*3)x(3*2) = 12x6.
+    So, on the whole, the grid of cells is a grid (4*3)x(3*2) = 12x6.
     And there are 4*3 = 12 barrels in total.
     The maximum number contained in each cell is 14.
     Finally, the list of recquired numbers on the top of the barrels is [45].
@@ -142,7 +142,7 @@ len(N,L) :- length(L,N).
 /* select_sublist(Start, End, L, L1): L1 is the sublist of the list L consisting in the elements from position Start to
                                       position End (extremes included)
 
-    The counting of the position of the elements is done starting from 1.
+   The counting of the position of the elements is done starting from 1.
 
    Arguments
    --------------
@@ -171,7 +171,7 @@ select_sublist(Start, End, [_|T], L1) :-
     Start #> 1,
     Start #=< End,
     Start1 #= Start-1, End1 #= End-1,
-    select_sublist(Start1, End1, T, L1).  % Recusrive call: L1 is the sublist of the tail T of L, from Start-1 up to End-1
+    select_sublist(Start1, End1, T, L1).  % Recursive call: L1 is the sublist of the tail T of L, from Start-1 up to End-1
 
 % Recursive case: Start=1
 % Let the list L be [H|T].
@@ -419,8 +419,8 @@ barrels_AUX(Grid_rows, N_columns_barrels, N_rows_per_barrel, N_columns_per_barre
 
 */            
 barrel(Grid_rows, N_columns_barrels, N_rows_per_barrel, N_columns_per_barrel, Barrel_idx, B) :-
-    Row_barrels #= (Barrel_idx div N_columns_barrels),  % Row index of that barrel
-    Col_barrels #= (Barrel_idx mod N_columns_barrels),  % Column index of that barrel
+    Row_barrels #= (Barrel_idx div N_columns_barrels),  % Row index of that barrel in the grid of barrels
+    Col_barrels #= (Barrel_idx mod N_columns_barrels),  % Column index of that barrel in the grid of barrels
   
     Starting_row_grid #= Row_barrels*N_rows_per_barrel+1,  % Starting row of that barrel in the grid of cells
     Ending_row_grid #= Starting_row_grid+N_rows_per_barrel-1,  % Ending row of that barrel in the grid of cells 
