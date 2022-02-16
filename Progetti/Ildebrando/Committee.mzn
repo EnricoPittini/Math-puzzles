@@ -12,7 +12,7 @@ include "globals.mzn";
 % Number of professors
 int: n = 4; 
 
-% 2D Array that show the friend relationship between every professor, in particular friends[i,j]=1 means that i is a friend of j, while friends[i,j]=0    % means that i is not a friend of j
+% 2D Array that shows the friend relationship between every professor, in particular friends[i,j]=1 means that i is a friend of j, while friends[i,j]=0    % means that i is not a friend of j
 array[1..n, 1..n] of var 0..1: friends; 
 
 % 1D Array that takes into consideration the members of the committee, in particular x[i]=1 means that i is in the committee, while x[i]=0 means that i is % not in the committee
