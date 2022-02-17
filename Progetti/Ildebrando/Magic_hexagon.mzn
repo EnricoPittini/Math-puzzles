@@ -1,4 +1,5 @@
 /*
+The aim of this exercise is to solve the math puzzle game called Magic Hexagon.
 A magic hexagon of order n is an arrangement of close-packed hexagons containing the numbers 1, 2, ..., H_(n-1), where H_n is the nth hex number such that the numbers along 
 each straight line add up to the same sum. In the magic hexagon of order n=3, each line (those of lengths 3, 4, and 5) adds up to 38.
 
