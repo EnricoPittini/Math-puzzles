@@ -1,8 +1,10 @@
 /*
-Every professor wants to be on the Athlectics Committee -- free tickets to your favorite event!
+The aim of this exercise is to solve the CSP problem of the Athletics Committee, proposed by research mathematician Peter Wrinkler during the 13th Gathering 4 Gardner conference.
+It states as follows:                            
+"Every professor wants to be on the Athlectics Committee -- free tickets to your favorite event!
 To keep the committee from becoming too cliquish, the college forbids anyone from serving who has 3 or more friends on the committee.
 That's OK, because if you have 3 or more friends on the committee, you get free tickets to your favorite event!
-Can the committee be chosen so that no one on it has 3 friends on the committee, but everyone _off_ the committee has 3 friends on it?
+Can the committee be chosen so that no one on it has 3 friends on the committee, but everyone _off_ the committee has 3 friends on it?"
 */
 
 include "globals.mzn"; 
