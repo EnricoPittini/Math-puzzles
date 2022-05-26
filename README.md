@@ -1,3 +1,6 @@
-# Project for "Languages and Algorithms for AI" course
+# Math puzzles
 
-This project deals with MiniZinc and Prolog CLP implementations of mathematical puzzles and CSP problems
+A bunch of math puzzles solved using either Constraint Logic Programming (in particular, using Prolog) or Constraint Programming (in particular, using Minizinc).
+
+This project has been carried out for the "Languages and Algorithms for AI" course.
+
